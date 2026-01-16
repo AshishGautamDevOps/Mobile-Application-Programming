@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sum of Two Numbers</title>
-    <script src="function.js">
-        
-    </script>
+    <title>Sum Difference Multiplication Quotient</title>
+    <script src="function.js"> </script>
 </head>
 <body>
-    <h2>Sum of Two Numbers</h2>
-    <input type="text" id="text" placeholder="Enter first number">
-    <input type="text" id="text" placeholder="Enter second number">
-    <button onclick="showSum()">Show Sum</button>
-    <div id="result"></div>
+    <h2>Sum Difference Multiplication Quotient</h2>
+    <input type="number" id="num1" placeholder="Enter first number">
+    <input type="number" id="num2" placeholder="Enter second number">
+
+    <br><br>
+
+    <button onclick="add()">Sum</button>
+        <div id="Sum"></div>
+        <br>
+    <button onclick="subtract()">Difference</button>
+        <div id="Difference"></div>
+        <br>
+    <button onclick="product()">Product</button> 
+        <div id="Multiplication"></div>
+        <br>
+    <button onclick="quotient()">Quotient</button>
+        <div id="Quotient"></div>
+
 </body>
 </html>
