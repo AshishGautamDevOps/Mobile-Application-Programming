@@ -1,51 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    // Sets character encoding
     <meta charset="UTF-8">
+
+    // Makes the page responsive on all devices
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    // Title shown in browser tab
+    <title>Student Result Checker</title>
 </head>
 <body>
+
+    // Main heading of the webpage
     <h1>Student Result Checker</h1>
     
+    // Input for English grade
     <label for="subject1">English grade:</label>
     <input type="number" id="grade1" name="grade1">
     <br><br>   
 
+    // Input for Math grade
     <label for="subject2">Math grade:</label>
     <input type="number" id="grade2" name="grade2">
     <br><br>
 
+    // Input for Science grade
     <label for="subject3">Science grade:</label>
     <input type="number" id="grade3" name="grade3">
     <br><br>
 
+    // Input for History grade
     <label for="subject4">History grade:</label>
     <input type="number" id="grade4" name="grade4">
     <br><br>
 
+    // Input for Art grade
     <label for="subject5">Art grade:</label>
     <input type="number" id="grade5" name="grade5">
     <br><br>
 
+    // Input for Physical Education grade
     <label for="subject6">Physical Education grade:</label>
     <input type="number" id="grade6" name="grade6">
     <br><br>
 
+    // Input for Computer Science grade
     <label for="subject7">Computer Science grade:</label>
     <input type="number" id="grade7" name="grade7">
     <br><br>
 
+    // Input for Music grade
     <label for="subject8">Music grade:</label>
     <input type="number" id="grade8" name="grade8">
     <br><br>
     
+    // Button to calculate total and result
     <button onclick="checkGrade()">Calculate Result</button>
 
+    // Displays total marks
     <div id="totalGrade"></div>
+
+    // Displays pass/fail result
     <div id="result"></div>
     <br><br>
+
+    // Links external JavaScript file
     <script src="gradesheet.js"></script>
+
 </body>
 </html>
-    
