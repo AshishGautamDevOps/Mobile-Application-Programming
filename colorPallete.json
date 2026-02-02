@@ -1,0 +1,59 @@
+{
+  "appName": "1-Minute Challenge",
+  "designTheme": "Calm, Positive, Motivational",
+  "primaryColor": {
+    "name": "Teal Blue",
+    "hex": "#50C9CE",
+    "usage": "App header, highlights, accents"
+  },
+  "backgroundColors": {
+    "mainBackground": {
+      "hex": "#E8F9FA",
+      "usage": "Main app background"
+    },
+    "cardBackground": {
+      "hex": "#FFFFFF",
+      "usage": "Cards and containers"
+    }
+  },
+  "buttonColors": {
+    "primaryButton": {
+      "hex": "#22C55E",
+      "usage": "Primary action button (I DID IT)"
+    },
+    "disabledButton": {
+      "hex": "#A7E3C4",
+      "usage": "Disabled or inactive button state"
+    }
+  },
+  "textColors": {
+    "primaryText": {
+      "hex": "#1F2937",
+      "usage": "Main text, challenge text"
+    },
+    "secondaryText": {
+      "hex": "#6B7280",
+      "usage": "Subtitles, helper text"
+    },
+    "inverseText": {
+      "hex": "#FFFFFF",
+      "usage": "Text on dark or primary-colored backgrounds"
+    }
+  },
+  "statusColors": {
+    "streak": {
+      "hex": "#F97316",
+      "usage": "Streak indicator and fire icon"
+    },
+    "success": {
+      "hex": "#16A34A",
+      "usage": "Success messages or confirmations"
+    }
+  },
+  "designRules": {
+    "maxColorsPerScreen": 4,
+    "preferredContrast": "High",
+    "avoidColors": ["#FF0000", "#000000"],
+    "notes": "Keep UI soft, readable, and distraction-free"
+  }
+}
