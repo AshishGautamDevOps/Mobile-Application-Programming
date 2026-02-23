@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Firebase CRUD - 10 Fields</title>
+
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+        background:#f4f6f8;
+        padding:40px;
+    }
+    .container{
+        width:420px;
+        margin:auto;
+        background:white;
+        padding:25px;
+        border-radius:10px;
+        box-shadow:0 0 15px rgba(0,0,0,0.1);
+    }
+    input{
+        width:100%;
+        padding:10px;
+        margin:6px 0;
+        border:1px solid #ccc;
+        border-radius:6px;
+    }
+    button{
+        width:48%;
+        padding:10px;
+        margin-top:10px;
+        border:none;
+        border-radius:6px;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+    }
+    .save{background:#2ecc71;}
+    .update{background:#3498db;}
+    .delete{background:#e74c3c;}
+    .read{background:#9b59b6;}
+    pre{
+        background:#111;
+        color:#0f0;
+        padding:10px;
+        margin-top:15px;
+        border-radius:6px;
+        height:150px;
+        overflow:auto;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>User Form (10 Fields)</h2>
+
+    <input type="text" id="userId" placeholder="User ID">
+
+    <input type="text" id="name" placeholder="Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="number" id="age" placeholder="Age">
+    <input type="text" id="phone" placeholder="Phone">
+    <input type="text" id="address" placeholder="Address">
+    <input type="text" id="city" placeholder="City">
+    <input type="text" id="country" placeholder="Country">
+    <input type="text" id="gender" placeholder="Gender">
+    <input type="text" id="profession" placeholder="Profession">
+    <input type="text" id="bio" placeholder="Short Bio">
+
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
+        <button class="save" onclick="saveUser()">Save</button>
+        <button class="update" onclick="updateUser()">Update</button>
+        <button class="delete" onclick="deleteUser()">Delete</button>
+        <button class="read" onclick="readUser()">Read</button>
+    </div>
+
+    <pre id="output">Database Output...</pre>
+</div>
+
+<!-- Connect JS file -->
+<script type="module" src="assignment.js"></script>
+
+</body>
+</html>

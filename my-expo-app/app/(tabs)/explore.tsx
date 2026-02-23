@@ -1,112 +1,106 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { useRouter } from "expo-router";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../src/firebaseConfig";
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+type UserDoc = {
+  name?: string;
+  email?: string;
+  streak?: number;
+};
 
-export default function TabTwoScreen() {
+export default function ProfileTab() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [name, setName] = useState("User");
+  const [email, setEmail] = useState("-");
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        router.replace("/login");
+        return;
+      }
+
+      try {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        const data = (snap.data() ?? {}) as UserDoc;
+
+        setName(data.name ?? user.displayName ?? "User");
+        setEmail(data.email ?? user.email ?? "-");
+        setStreak(data.streak ?? 0);
+      } catch (e: any) {
+        Alert.alert("Load Error", e.message);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    return () => unsub();
+  }, [router]);
+
+  const handleLogout = async () => {
+    if (loggingOut) return;
+
+    setLoggingOut(true);
+    try {
+      await signOut(auth);
+      router.replace("/login");
+    } catch (e: any) {
+      Alert.alert("Logout Error", e.message);
+    } finally {
+      setLoggingOut(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#50C9CE" />
+        <Text style={styles.helper}>Loading profile...</Text>
+      </View>
+    );
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Profile</Text>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Name</Text>
+        <Text style={styles.value}>{name}</Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Email</Text>
+        <Text style={styles.value}>{email}</Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Current Streak</Text>
+        <Text style={styles.value}>{streak} days</Text>
+      </View>
+
+      <TouchableOpacity style={[styles.btn, loggingOut && styles.btnDisabled]} onPress={handleLogout} disabled={loggingOut}>
+        {loggingOut ? <ActivityIndicator color="#fff" /> : <Text style={styles.btnText}>Logout</Text>}
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
+  helper: { color: "#667085", marginTop: 10 },
+  container: { flex: 1, padding: 24, justifyContent: "center", gap: 12 },
+  title: { fontSize: 28, fontWeight: "800", marginBottom: 8, textAlign: "center" },
+  card: { borderWidth: 1, borderColor: "#D0D5DD", borderRadius: 12, padding: 14, backgroundColor: "#fff" },
+  label: { color: "#667085", fontSize: 13, marginBottom: 4 },
+  value: { fontSize: 16, fontWeight: "700", color: "#101828" },
+  btn: { marginTop: 16, backgroundColor: "#E53935", borderRadius: 12, padding: 14, alignItems: "center" },
+  btnDisabled: { opacity: 0.7 },
+  btnText: { color: "#fff", fontWeight: "800" },
 });
